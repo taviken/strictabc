@@ -6,6 +6,6 @@ Repository of python package strictabc
 License
 -------
 
-Licensed under the `MIT License`.
+Licensed under the `MIT License`_.
 
 .. _MIT License: http://www.apache.org/licenses/LICENSE-2.0
