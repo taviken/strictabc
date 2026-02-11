@@ -42,7 +42,7 @@ will not pass, and a 'StrictAbstractError' will be thrown'.
     >>> from concrete import *
     . strictabc.strict.StrictAbstractError: Errors in <Warthog>
     . Missing methods: ['speak']
-    . Missmatched signatures detected: []
+    . Missmatched signatures detected: None
     >>>
 
 Or, if the 'speak' signature doesn't match, a similar exception will be thrown.
@@ -58,7 +58,7 @@ Giving the following exception:
 .. code-block:: console
 
     . strictabc.strict.StrictAbstractError: Errors in <Warthog>
-    . Missing methods: []
+    . Missing methods: None
     . Missmatched signatures detected: [miss_matched_sigs(method_name='speak', good_sig=<Signature (self) -> str>, bad_sig=<Signature (cls) -> str>)]
     >>>
 
