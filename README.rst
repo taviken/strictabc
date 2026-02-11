@@ -25,6 +25,7 @@ The classic interface example, Animal:
 Later implementing concrete classes:
 
 .. code-block:: python
+    
     class A10Warthog(Animal):
         
         def speak(self)->str:
