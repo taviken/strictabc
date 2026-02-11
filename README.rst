@@ -21,6 +21,7 @@ The classic interface example, Animal:
         @strictabstract
         def speak(self)->str:
             pass
+
 Later implementing concrete classes:
 
 .. code-block:: python
@@ -31,24 +32,30 @@ Later implementing concrete classes:
     
     class Warthog(Animal):
         pass
+
 The concrete class 'A10Warthog' will pass the checks that 'StrictABC' performs. The other 'Warthog' class 
 will not pass, and a 'StrictAbstractError' will be thrown'.
 
 .. code-block:: console
+
     >>> from concrete import *
     . strictabc.strict.StrictAbstractError: Errors in <StrictABCMeta>
     . Missing methods: ['speak']
     . Missmatched signatures detected: []
     >>>
+
 Or, if the 'speak' signature doesn't match, a similar exception will be thrown.
 
 .. code-block:: python
+
     class Warthog(Animal):
         def speak(cls)->str:
             return 'oh the shame ... And I got downhearted, everytime....!'
+
 Giving the following exception:
 
 .. code-block:: console
+
     . strictabc.strict.StrictAbstractError: Errors in <StrictABCMeta>
     . Missing methods: []
     . Missmatched signatures detected: [miss_matched_sigs(method_name='Warthog', good_sig=<Signature (self) -> str>, bad_sig=<Signature (cls) -> str>)]
