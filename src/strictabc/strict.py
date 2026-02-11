@@ -17,22 +17,6 @@ __strict_signature__ = "__strict_signature__"
 
 
 class StrictAbstractError(AttributeError):
-    """Metaclass for defining Strict Abstract Base Classes (ABCs).
-
-    Use this metaclass to create an Strict ABC.  An ABC can be subclassed
-    directly, and then acts as a mix-in class.  You can also register
-    unrelated concrete classes (even built-in classes) and unrelated
-    ABCs as 'virtual subclasses' -- these and their descendants will
-    be considered subclasses of the registering ABC by the built-in
-    issubclass() function, but the registering ABC won't show up in
-    their MRO (Method Resolution Order) nor will method
-    implementations defined by the registering ABC be callable (not
-    even via super()).
-
-    This Class will throw an Attribute like error upon detecting un implemented
-    methods in the Concrete class at compile time.
-    """
-
     def __init__(
         self, name: str, missing: List[str], bad_sigs: List[miss_matched_sigs]
     ):
@@ -66,6 +50,15 @@ def strictabstract(funcobj: Callable):
 
 
 class StrictABCMeta(ABCMeta):
+    """Metaclass for defining Strict Abstract Base Classes (ABCs).
+
+    Use this metaclass to create an Strict ABC.  This is a subclass of the builtin
+    ABCMeta class.
+
+    This Class will throw an Attribute like error upon detecting un implemented
+    methods in the Concrete class at compile time.
+    """
+
     def __new__(
         mcls,
         name: str,
