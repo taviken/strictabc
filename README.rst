@@ -25,7 +25,7 @@ The classic interface example, Animal:
 Later implementing concrete classes:
 
 .. code-block:: python
-    
+
     class A10Warthog(Animal):
         
         def speak(self)->str:
@@ -40,7 +40,7 @@ will not pass, and a 'StrictAbstractError' will be thrown'.
 .. code-block:: console
 
     >>> from concrete import *
-    . strictabc.strict.StrictAbstractError: Errors in <StrictABCMeta>
+    . strictabc.strict.StrictAbstractError: Errors in <Warthog>
     . Missing methods: ['speak']
     . Missmatched signatures detected: []
     >>>
@@ -57,9 +57,9 @@ Giving the following exception:
 
 .. code-block:: console
 
-    . strictabc.strict.StrictAbstractError: Errors in <StrictABCMeta>
+    . strictabc.strict.StrictAbstractError: Errors in <Warthog>
     . Missing methods: []
-    . Missmatched signatures detected: [miss_matched_sigs(method_name='Warthog', good_sig=<Signature (self) -> str>, bad_sig=<Signature (cls) -> str>)]
+    . Missmatched signatures detected: [miss_matched_sigs(method_name='speak', good_sig=<Signature (self) -> str>, bad_sig=<Signature (cls) -> str>)]
     >>>
 
 

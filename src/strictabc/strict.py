@@ -20,8 +20,8 @@ class StrictAbstractError(AttributeError):
     def __init__(
         self, name: str, missing: List[str], bad_sigs: List[miss_matched_sigs]
     ):
-        missing_methods = f"Missing methods: {missing}"
-        missmatch = f"Missmatched signatures detected: {bad_sigs}"
+        missing_methods = f"Missing methods: {missing if missing else None}"
+        missmatch = f"Missmatched signatures detected: {bad_sigs if bad_sigs else None}"
         msg = f"Errors in <{name}>\n{missing_methods}\n{missmatch}"
         super().__init__(msg)
 
@@ -117,7 +117,7 @@ class StrictABCMeta(ABCMeta):
             # if base and concrete signatures don't match, append to bad sigs
             if concrete_sig != base_sig:
                 bad_sig = miss_matched_sigs(
-                    method_name=classdict["__qualname__"],
+                    method_name=method_name,
                     good_sig=base_sig,
                     bad_sig=concrete_sig,
                 )
@@ -126,7 +126,7 @@ class StrictABCMeta(ABCMeta):
 
         # if either missing or bad sigs found raise exception here
         if missing or bad_sigs:
-            raise StrictAbstractError(mcls.__name__, missing, bad_sigs)
+            raise StrictAbstractError(classdict["__qualname__"], missing, bad_sigs)
 
 
 class StrictABC(metaclass=StrictABCMeta):
