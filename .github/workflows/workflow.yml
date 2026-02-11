@@ -5,8 +5,7 @@ on:
     branches: [ "main",'test-pipeline' ]
   pull_request:
     branches: [ "main",'test-pipeline' ]
-  paths-ignore:
-      - '**/README.rst'
+
 
 jobs:
   build:
