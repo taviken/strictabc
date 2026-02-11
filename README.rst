@@ -9,7 +9,7 @@ to enforce implementation earlier.
 Example
 -------
 
-The classic interface example, Animal.
+The classic interface example, Animal:
 
 .. code-block:: python
 
@@ -21,7 +21,7 @@ The classic interface example, Animal.
         @strictabstract
         def speak(self)->str:
             pass
-Later implementing concrete classes
+Later implementing concrete classes:
 
 .. code-block:: python
     class A10Warthog(Animal):
@@ -32,7 +32,7 @@ Later implementing concrete classes
     class Warthog(Animal):
         pass
 The concrete class 'A10Warthog' will pass the checks that 'StrictABC' performs. The other 'Warthog' class 
-will not pass, and a 'StrictAbstractError' will be thrown'
+will not pass, and a 'StrictAbstractError' will be thrown'.
 
 .. code-block:: console
     >>> from concrete import *
@@ -46,7 +46,7 @@ Or, if the 'speak' signature doesn't match, a similar exception will be thrown.
     class Warthog(Animal):
         def speak(cls)->str:
             return 'oh the shame ... And I got downhearted, everytime....!'
-Giving the following exception
+Giving the following exception:
 
 .. code-block:: console
     . strictabc.strict.StrictAbstractError: Errors in <StrictABCMeta>
