@@ -4,7 +4,7 @@ This module contains the implementation of Strict ABC classes and decorators
 
 from abc import ABCMeta, abstractmethod, ABC
 from typing import Mapping, List, Tuple, Iterable, Callable, Any
-from inspect import signature
+from inspect import signature, isfunction
 from collections import namedtuple
 
 _sentinel = object()
@@ -27,7 +27,8 @@ class StrictAbstractError(AttributeError):
 
 
 def strictabstract(funcobj: Callable):
-    """A decorator indicating strict abstract methods.
+    """
+    A decorator indicating strict abstract methods.
 
     Requires that the metaclass is StrictABCMeta or derived from it.  A
     class that has a metaclass derived from StrictABCMeta cannot be
@@ -43,14 +44,14 @@ def strictabstract(funcobj: Callable):
             def my_abstract_method(self, arg1, arg2, argN):
                 ...
     """
-    sig = signature(funcobj)
-    setattr(funcobj, __strict_signature__, sig)
+    setattr(funcobj, __strict_signature__, __strict_signature__)
     funcobj.__isabstractmethod__ = True
     return funcobj
 
 
 class StrictABCMeta(ABCMeta):
-    """Metaclass for defining Strict Abstract Base Classes (ABCs).
+    """
+    Metaclass for defining Strict Abstract Base Classes (ABCs).
 
     Use this metaclass to create an Strict ABC.  This is a subclass of the builtin
     ABCMeta class.
@@ -84,6 +85,7 @@ class StrictABCMeta(ABCMeta):
                 (method_name, method)
                 for method_name, method in vars(base).items()
                 if callable(method) and method_name in base.__abstractmethods__
+                and hasattr(method, __strict_signature__)
             )
 
             # check for missing and bad signatures
@@ -96,23 +98,31 @@ class StrictABCMeta(ABCMeta):
         bad_sigs = []
         # loop through base classes
         for method_name, method in base_methods.items():
+            
             # grab corresponding concrete method
             concrete_method = classdict.get(method_name, _sentinel)
-
             # if no concrete method found, append to missing and continue
             if concrete_method is _sentinel:
                 missing.append(method_name)
                 continue
 
-            # get base method signature
-            base_sig = getattr(method, __strict_signature__)
+            
+            # check if method is classmethod, if it is get underlying function
+            if isinstance(concrete_method,classmethod):
+                concrete_method = concrete_method.__func__
+            
+            
+            # check if concrete method is a method and not something else, like a
+            # variable.
+            if not isfunction(concrete_method):
+                missing.append(method_name)
+                continue   
 
-            # get signature fro concrete method
-            if isinstance(concrete_method, classmethod):
-                # concrete method is classmethod, handle grab sig differently
-                concrete_sig = signature(concrete_method.__func__)
-            else:
-                concrete_sig = signature(concrete_method)
+
+            # get signature from concrete method and base
+            concrete_sig = signature(concrete_method)
+            base_sig = signature(method)
+       
 
             # if base and concrete signatures don't match, append to bad sigs
             if concrete_sig != base_sig:
