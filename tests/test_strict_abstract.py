@@ -77,3 +77,12 @@ def test_fail_missmatch(setup):
 
             def baz(self, A):
                 print(A)
+
+
+def test_fail2(setup):
+    Foo, _ = setup
+    with pytest.raises(StrictAbstractError):
+
+        class ConFooFailSig(Foo):
+            bar: str
+            baz: int = 2
